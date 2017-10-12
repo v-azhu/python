@@ -1,4 +1,5 @@
 eclipse.preferences.version=1
 encoding//landingzone/mysql.py=utf-8
 encoding//landingzone/opencv_dlib_facedetection.py=utf-8
+encoding//landingzone/pyutils.py=utf-8
 encoding//landingzone/stock.py=utf-8
