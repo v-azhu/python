@@ -6,5 +6,18 @@
 # purpose   : python use defined utils
 # copyright : copyright (c) zhuyunsheng carl_zys@163.com all rights received  
 ################################################################################
+import csv
 class utils(object):
-    pass
+    def readInChunks(self,fileObj,chunklines=10240000):
+        while True:
+            data = fileObj.readlines(chunklines)
+            if not data:break
+            yield data
+    def csv2json(self,f):
+        js={}
+        csvdata = csv.reader(f,delimiter=',',quotechar='"')
+        print [x for x in csvdata]
+
+if __name__ == "__main__":
+    u = utils()
+    u.csv2json('e:/1.txt')
