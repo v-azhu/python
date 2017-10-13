@@ -7,6 +7,7 @@
 # copyright : copyright (c) zhuyunsheng carl_zys@163.com all rights received  
 ################################################################################
 import csv
+import datetime
 class utils(object):
     def readInChunks(self,fileObj,chunklines=10240000):
         while True:
@@ -15,9 +16,9 @@ class utils(object):
             yield data
     def csv2json(self,f):
         js={}
-        csvdata = csv.reader(f,delimiter=',',quotechar='"')
-        print [x for x in csvdata]
+        csvdata = csv.reader(f,delimiter='\t',quotechar='"')
+        print csvdata.next()
 
 if __name__ == "__main__":
     u = utils()
-    u.csv2json('e:/1.txt')
+    #u.csv2json('e:/1.txt')

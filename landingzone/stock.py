@@ -76,17 +76,45 @@ class istock(object):
                         if d:
                             db._cursor.executemany("insert into tb_stk_1min values(?,?,?,?,?,?,?,?)",d)
                             db._conn.commit()
+    def backtrace(self,):
+        scode='sh600050'
+        startdate=datetime.datetime.strptime('2017-09-10 00:00:00','%Y-%m-%d %H:%M:%S')
+        enddate = datetime.datetime.now()
+        nextday = startdate+datetime.timedelta(days=1)
+        maxclose,minclose,avgclose,minsdate = self.getndaysavgprice()
+        stockamt,maxstockamt = 0,30000
+        
+        with mysql.mysql() as db:
+            while nextday < enddate:
+                sql="select * from tb_stk_1min where scode = '%s' and sdate > '%s' and sdate < '%s' order by sdate"%(scode,startdate,nextday)
+                action,btime,price = None,None,None
+                for r in db._cursor.execute(sql).fetchall():
+                    if r[5] > avgclose and stockamt < maxstockamt and action <> "buy":
+                        action, price,btime,stockamt = "buy", r[5],r[1],(stockamt if stockamt<>0 else maxstockamt)
+                    elif r[5] < avgclose and stockamt > 0 and action <> "sell":
+                        action, price,btime,stockamt = "sell", r[5],r[1],int(stockamt-(stockamt/2))
+                if btime is not None: print btime,action, price,stockamt,price*stockamt
+                startdate = nextday
+                nextday = startdate+datetime.timedelta(days=1)
+    def getndaysavgprice(self,scode='sh600050',days=20):
+        with mysql.mysql() as db:
+            sql="""select max(rclose) maxclose,min(rclose) minclose,avg(rclose) avgclose,min(sdate) minsdate from tb_stk_1min where scode = '%s' and sdate > date_sub(sysdate(),interval %d day)
+            """%(scode,days)
+            rs = db._cursor.execute(sql).fetchone()
+            return rs
     def run(self):
         for i in range(self.multi):
             p=Process(target=self.stock1min,args=(i,))
             p.start()
         p.join()
+        
 if __name__ == "__main__":
     freeze_support()
     istk = istock()
     #istk._getStockInfo()
     #istk.stock1day(1)
     #istk.f10()
-    istk.run()
+    #istk.run()
     #istk.stock1min()
+    istk.backtrace()
     
