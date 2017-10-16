@@ -22,6 +22,8 @@ class istock(object):
         self.urlbase="http://hq.sinajs.cn/list=%s"
         self.watchlist=['sh600050','sz300494','sh600875','sz000598','sh600458','sz002433']
         self.multi=4
+        self.curraccount={"avaliablebalance":100000,"currdate":datetime.datetime.strptime('2017-09-12','%Y-%m-%d'),'sh600050':{'totalamt':0,"totalprice":0,"availableamt":0,"currops":[]}}
+        
     def _getStockInfo(self):
         data = urlopen(self.urlbase%','.join(self.watchlist))
         for l in data.readlines():
@@ -81,21 +83,31 @@ class istock(object):
         startdate=datetime.datetime.strptime('2017-09-10 00:00:00','%Y-%m-%d %H:%M:%S')
         enddate = datetime.datetime.now()
         nextday = startdate+datetime.timedelta(days=1)
-        maxclose,minclose,avgclose,minsdate = self.getndaysavgprice()
-        stockamt,maxstockamt = 0,30000
-        
+        maxclose,minclose,avgclose,minsdate = self.getndaysavgprice()        
         with mysql.mysql() as db:
             while nextday < enddate:
                 sql="select * from tb_stk_1min where scode = '%s' and sdate > '%s' and sdate < '%s' order by sdate"%(scode,startdate,nextday)
-                action,btime,price = None,None,None
                 for r in db._cursor.execute(sql).fetchall():
-                    if r[5] > avgclose and stockamt < maxstockamt and action <> "buy":
-                        action, price,btime,stockamt = "buy", r[5],r[1],(stockamt if stockamt<>0 else maxstockamt)
-                    elif r[5] < avgclose and stockamt > 0 and action <> "sell":
-                        action, price,btime,stockamt = "sell", r[5],r[1],int(stockamt-(stockamt/2))
-                if btime is not None: print btime,action, price,stockamt,price*stockamt
+                    if r[5] > avgclose:
+                        self.buy(scode=scode,amt=1000,price=r[5],opdate=r[1])
+                    elif r[5] < avgclose:
+                        self.sell(scode=scode,amt=1000,price=r[5],opdate=r[1])
+                print self.curraccount
                 startdate = nextday
                 nextday = startdate+datetime.timedelta(days=1)
+    
+    def buy(self,scode,amt,price,opdate):        
+        print "befor:%s,avaliablebalance:%s,currdate:%s"%(self.curraccount[scode],self.curraccount["avaliablebalance"],self.curraccount["currdate"])
+        if float(amt*price) > self.curraccount["avaliablebalance"]:
+            print "not enough money to buy!", amt*price
+            return -1
+        else:
+            self.curraccount[scode]["currops"].append({"currbuyamt":amt,"currbuyprice":price,"currbuybalance":amt*price,"buydate":opdate})
+            self.curraccount["avaliablebalance"] -= amt*price
+            self.curraccount[scode]["totalamt"] += amt
+        print "after:%s,avaliablebalance:%s,currdate:%s"%(self.curraccount[scode],self.curraccount["avaliablebalance"],self.curraccount["currdate"])
+    def sell(self,scode,amt,price,opdate):
+        pass
     def getndaysavgprice(self,scode='sh600050',days=20):
         with mysql.mysql() as db:
             sql="""select max(rclose) maxclose,min(rclose) minclose,avg(rclose) avgclose,min(sdate) minsdate from tb_stk_1min where scode = '%s' and sdate > date_sub(sysdate(),interval %d day)
@@ -107,7 +119,7 @@ class istock(object):
             p=Process(target=self.stock1min,args=(i,))
             p.start()
         p.join()
-        
+    
 if __name__ == "__main__":
     freeze_support()
     istk = istock()
@@ -117,4 +129,5 @@ if __name__ == "__main__":
     #istk.run()
     #istk.stock1min()
     istk.backtrace()
+    #istk.buy(scode='sh600050',amt=10000,price=7.11,opdate=datetime.datetime.strptime('2017-09-11','%Y-%m-%d'))
     
