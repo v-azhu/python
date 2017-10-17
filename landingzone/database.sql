@@ -71,3 +71,32 @@ create index idx_stk_1min on tb_stk_1min
    sdate
 );
 
+drop table if exists tb_stk_currstockhold;
+
+/*==============================================================*/
+/* Table: tb_stk_currstockhold                                  */
+/*==============================================================*/
+create table tb_stk_currstockhold
+(
+   scode                char(8) comment '股票代码',
+   samt                 bigint comment '股票数量',
+   sprice               decimal(10,2) comment '股票价格'
+);
+
+alter table tb_stk_currstockhold comment '当前账号所持股票';
+
+drop table if exists tb_stk_tradelog;
+
+/*==============================================================*/
+/* Table: tb_stk_tradelog                                       */
+/*==============================================================*/
+create table tb_stk_tradelog
+(
+   tdate                datetime comment '交易日期',
+   scode                char(8) comment '股票代码',
+   sprice               decimal(10,2) comment '股票单价',
+   samt                 bigint comment '成交数量'
+);
+
+alter table tb_stk_tradelog comment '交易日志';
+
