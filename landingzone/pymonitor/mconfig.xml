@@ -1,0 +1,70 @@
+
+#mconfig.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<monitor>
+    <def>
+      <excel name="excel1" saveas="e:/a.xls" sheet="sheet1"/>
+    </def>
+    <host name="host1" ip="211.211.8.155" sshUser="root"
+        sshPass="DQAAAAAAAAAYvDZ6dvwc82oFhQhsp/QR844PvVrue9BgE3r9CYy43g=="
+        auth="">
+        <items type="dblog">
+            <item order="1" dependedon="" display="鎴戞槸璋?>whoami</item>
+            <item order="2" dependedon="" display="涓枃瀛楃">pwd</item>
+        </items>
+        <items type="asmlog">
+            <item order="2" dependedon="" display="鎴戞槸璋?>who</item>
+        </items>
+    </host>
+    <host name="host2" ip="211.211.8.155" sshUser="root"
+        sshPass="DQAAAAAAAAAYvDZ6dvwc82oFhQhsp/QR844PvVrue9BgE3r9CYy43g=="
+        auth="">
+        <items type="dblog">
+            <item order="1" dependedon="" display="鎴戞槸璋?>echo helloworld</item>
+        </items>
+        <items type="asmlog">
+            <item order="1" dependedon="" display="鎴戞槸璋?>whoami</item>
+            <item order="2" dependedon="" display="鎴戞槸璋?>pwd</item>
+        </items>
+    </host>
+    <database name="creditdb" ip="211.211.8.155" dbport="1521"
+        sid="creditdb1" dbuser="system"
+        dbpass="DwAAAAAAAAAXw8WhuUsaZvmi8q0cf2Rw1ErM4Gb5l8AmMD1D9zhaeQ==">
+        <items type="SQL">
+            <item title="tablespace" order="1"
+                tabheader="TableSpace TotalSpace(MBytes) TotalBlocks(MBytes) FreeSpace(MBytes) FreeBlocks(MBytes) FreePercent(%)"
+                display="琛ㄧ┖闂翠娇鐢?  Excel="test.xslx">
+                <![CDATA[
+                    select 1,2,3,4,5,6 from dual
+                ]]>
+            </item>
+            <item title="unit" order="2" tabheader="owner table_name count"
+                display="鎵€鏈夎〃瀛楁鏁?>
+                <![CDATA[
+                    select utl_inaddr.get_host_name,utl_inaddr.get_host_address,'c' from dual
+                ]]>
+            </item>
+        </items>
+    </database>
+    <database name="bidb" ip="172.25.200.10" dbport="9090" sid="bidb1"
+        dbuser="hisuser" dbpass="CgAAAAAAAAAy2qF4AZfhiLzm9JarXO5rx6eFYjBWmBNIJ19t1GwOZQ==">
+        <items type="SQL">
+            <item title="tablespace" order="1"
+                tabheader="TableSpace TotalSpace(MBytes) TotalBlocks(MBytes) FreeSpace(MBytes) FreeBlocks(MBytes) FreePercent(%)"
+                display="琛ㄧ┖闂翠娇鐢?>
+                <![CDATA[
+                    select 1,2,3,4,5,6 from dual
+                ]]>
+            </item>
+            <item title="unit" order="2" tabheader="owner table_name count"
+                display="琛ㄧ┖闂翠娇鐢?>
+                <![CDATA[
+                    select utl_inaddr.get_host_name,utl_inaddr.get_host_address,'c' from dual
+                ]]>
+            </item>
+        </items>
+    </database>
+</monitor>
+              
+

@@ -1,0 +1,28 @@
+#aconfig.json
+{
+  "__configtab__": {
+    "workdir": "E:/tmp", 
+    "srcdb": "pydata_1121"
+  },
+  "t_annual_report": {
+    "funname": "doImport", 
+    "shortname": "star", 
+    "tgt": "interfaceuser.t_annual_report1611", 
+    "pk": "annual_report_id"
+  },
+  "tb_copyright_info": {
+    "funname": "copyrightInfo", 
+    "shortname":"cprit",
+    "srcfile": "E:\DataIn\201611\copyright\copyright.txt",
+    "tgt": "interfaceuser.TB_COPYRIGHT_INFO1611"
+  },
+  "t_corp_intro": {
+    "funname": "corpProfile", 
+    "shortname":"CompanyContent",
+    "srcfile": "E:\DataIn\201611\copyright\", 
+    "tgt": "interfaceuser.t_corp_intro1611"
+  }  
+}
+
+            
+
