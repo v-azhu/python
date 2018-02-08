@@ -1,0 +1,133 @@
+<table cellpadding="0" cellspacing="0" class="tab1">
+<tr>
+<td class="tdtitle" rowspan="11">发行状况
+                </td>
+<td class="tdcolor">股票代码
+                </td>
+<td class="tdwidth"> 002335
+                </td>
+<td class="tdcolor">股票简称
+                </td>
+<td class="tdwidth"> 科华恒盛
+                </td>
+</tr>
+<tr>
+<td class="tdcolor">申购代码
+                </td>
+<td class="tdwidth"> 002335
+                </td>
+<td class="tdcolor">上市地点
+                </td>
+<td class="tdwidth"> 
+                        深圳证券交易所
+                </td>
+</tr>
+<tr>
+<td class="tdcolor">发行价格（元／股）
+                </td>
+<td class="tdwidth"> 
+                    27.35
+                    
+                </td>
+<td class="tdcolor">发行市盈率
+                </td>
+<td class="tdwidth"> 52.6
+                </td>
+</tr>
+<tr>
+<td class="tdcolor">市盈率参考行业
+                </td>
+<td class="tdwidth" id="td_sylckhy"> 
+                </td>
+<td class="tdcolor">参考行业市盈率(最新)
+                </td>
+<td class="tdwidth" id="td_hysyl"> -
+                </td>
+</tr>
+<tr>
+<td class="tdcolor">发行面值（元）
+                </td>
+<td class="tdwidth" id="td_mgmz"> 
+                </td>
+<td class="tdcolor">实际募集资金总额(亿元)
+                </td>
+<td class="tdwidth" id="td_sjmjzjze"> 
+                </td>
+</tr>
+<tr>
+<td class="tdcolor">网上发行日期
+                </td>
+<td class="tdwidth"> 2010-01-04 (周一)
+                </td>
+<!--OK-->
+<td class="tdcolor">网下配售日期
+                </td>
+<td class="tdwidth" id="td_wxpsrq"> 
+                </td>
+</tr>
+<tr>
+<td class="tdcolor">网上发行数量(股)
+                </td>
+<td class="tdwidth"> 15,600,000
+                </td>
+<!--OK-->
+<td class="tdcolor">网下配售数量(股)
+                </td>
+<td class="tdwidth" id="td_wxpssl"> 
+                </td>
+</tr>
+<tr>
+<td class="tdcolor">老股转让数量(股)
+                </td>
+<td class="tdwidth" id="td_lgzrsl"> 
+                </td>
+<td class="tdcolor">总发行数量（股）
+                </td>
+<td class="tdwidth" id="td_hbsl"> 19,500,000
+                </td>
+</tr>
+<tr>
+<td class="tdcolor">申购数量上限(股)
+                </td>
+<td class="tdwidth"> 15,500
+                </td>
+<td class="tdcolor">中签缴款日期
+                </td>
+<td class="tdwidth"> 2010-01-04 (周一)
+                </td>
+</tr>
+<tr>
+<td class="tdcolor">网上顶格申购需配市值(万元)
+                </td>
+<td class="tdwidth"> 15.50
+                </td>
+<td class="tdcolor">网上申购市值确认日
+                </td>
+<td class="tdwidth"> T-2日(T:网上申购日)
+                </td>
+</tr>
+<tr>
+<td class="tdcolor">网下申购需配市值(万元)
+                </td>
+<td class="tdwidth" id="td_wxsgxpsz"> 
+                </td>
+<td class="tdcolor">网下申购市值确认日
+                </td>
+<td class="tdwidth" id="td_wxsgszqrr"> 
+                </td>
+</tr>
+<tr>
+<td class="tdtitle" rowspan="2">发行方式
+                </td>
+<td class="tdcolor">发行方式类型
+                </td>
+<td colspan="3" id="fxfslx" style="text-align: left;"> 
+                </td>
+</tr>
+<tr>
+<td class="tdcolor">发行方式说明
+                </td>
+<td class="" colspan="3" id="fxfssm" style="text-align: left !important;"> 
+                </td>
+</tr>
+</table>

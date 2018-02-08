@@ -39,14 +39,16 @@ The data is stored like in a C array, i.e. the index in the last dimension chang
 import gzip
 from struct import unpack_from,calcsize
 import numpy as np
-class idx1_ubype(object):
-    def ungzip(self,gz):
+import matplotlib.pyplot as plt
+
+def ungzip(gz):
         with gzip.open(gz) as f:
             if f:
                 return f.read()
             else:return None
+class idx3_ubyte(object):    
     def decode(self,idx1_ubype_file=None):
-        fc = self.ungzip(idx1_ubype_file)
+        fc = ungzip(idx1_ubype_file)
         print ( unpack_from('>iiii',fc,0 ) )
         offset = 0
         fmt_header = '>iiii'
@@ -60,17 +62,36 @@ class idx1_ubype(object):
         for i in range(imgcnt):
             images[i] = np.array(unpack_from(fmt_image, fc, offset)).reshape((rows, cols))
             offset += calcsize(fmt_image)
-        print ( images )
+        return images
 
 
-
-        
+class idx1_ubyte(object):
+    def decode(self,idx1_ubyte_file):        
+        bin_data = ungzip(idx1_ubyte_file)
+        offset = 0
+        fmt_header = '>ii'
+        magicnum, imgcnt = unpack_from(fmt_header, bin_data, offset)
+        offset += calcsize(fmt_header)
+        fmt_image = '>B'
+        labels = np.empty(imgcnt)
+        for i in range(imgcnt):
+            labels[i] = unpack_from(fmt_image, bin_data, offset)[0]
+            offset += calcsize(fmt_image)
+        return labels            
         
     def encode(self,):
         pass
     
 
 if __name__ == "__main__":
-    mnist = idx1_ubype()
-    mnist.decode('MNIST_data/train-images-idx3-ubyte.gz')
+    idx1 = idx1_ubyte()
+    #labels = idx1.decode('MNIST_data/t10k-labels-idx1-ubyte.gz')
+    labels = idx1.decode('MNIST_data/train-labels-idx1-ubyte.gz')
+    idx3 = idx3_ubyte()
+    images = idx3.decode('MNIST_data/train-images-idx3-ubyte.gz')    
+    for i in range(10):
+        print ( labels[i] )
+        plt.imshow( images[i],cmap='gray' ) 
+        plt.show()
+    
     

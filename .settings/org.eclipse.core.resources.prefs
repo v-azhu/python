@@ -1,7 +1,8 @@
 eclipse.preferences.version=1
+encoding//landingzone/ipo.py=gb18030
 encoding//landingzone/mysql.py=utf-8
-encoding//landingzone/opencv_dlib_facedetection.py=utf-8
 encoding//landingzone/pyutils.py=utf-8
 encoding//landingzone/stock.py=utf-8
 encoding//landingzone/taobao.py=utf-8
 encoding//landingzone/tensorflow/idxubyte.py=utf-8
+encoding//landingzone/tensorflow/opencv_dlib_facedetection.py=utf-8

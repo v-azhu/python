@@ -13,6 +13,7 @@ create user 'stops'@'localhost' identified by 'stops';
 grant all on stdb.* to 'stops'@'localhost';
 
 
+use stdb;
 
 drop index idx_stk_1day_prim on tb_stk_1day;
 
@@ -100,3 +101,36 @@ create table tb_stk_tradelog
 
 alter table tb_stk_tradelog comment '交易日志';
 
+
+
+/*==============================================================*/
+/* Table: tb_stk_ipolog                                       */
+/*==============================================================*/
+create table tb_stk_ipolog
+(   
+   scode                char(8) comment '股票代码',
+   sname				char(8) comment '股票名称',
+   rcode                char(8) comment '申购代码',
+   releasecnt           bigint  comment '发行总数（股）',
+   releaseonlinecnt     bigint  comment '网上发行总数（股）',
+   applycnt			    bigint  comment '申购上限（股）',
+   rprice				decimal(10,6) comment '发行价格',
+   applydate			datetime comment '申购日期',
+   ipodate				datetime comment '上市日期',
+   winrateonline    	decimal(10,6) comment '网上发行中签率',
+   winrateoffline    	decimal(10,6) comment '网下配售中签率',
+   enquiryamnt			decimal(10,6) comment '询价累计报价倍数',
+   enquirycnt			bigint comment '询价累计报价股（股）',
+   validacctsonline		bigint comment '网上有效申购户数(户)',
+   validacctsoffline	bigint comment '网下有效申购户数(户)',
+   validapplyonline		decimal(10,6) comment '网上有效申购股数(股)',
+   validapplyoffline	decimal(10,6) comment '网下有效申购股数(股)',
+   winnumberlast4		varchar(300) comment '末4位数',
+   winnumberlast5		varchar(300) comment '末5位数',
+   winnumberlast6		varchar(300) comment '末6位数',
+   winnumberlast7		varchar(300) comment '末7位数',
+   winnumberlast8		varchar(300) comment '末8位数',
+   winnumberlast9		varchar(300) comment '末9位数'
+   );
+
+alter table tb_stk_ipolog comment '新股申购日志表';
