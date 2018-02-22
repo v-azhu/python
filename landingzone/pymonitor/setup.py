@@ -18,7 +18,7 @@ setup(
       name=project,
       version=version.version,
       author="ZhuYunSheng",
-      authorEmain="orazhuys@gmail.com;carl_zys@163.com",
+      authorEmain="awen.zhu@hotmail.com;awen.zhu@hotmail.com",
       description="simple monitor tool for py system.",
       url="",
       platform=['windows'],

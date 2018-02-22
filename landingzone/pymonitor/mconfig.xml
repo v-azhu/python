@@ -1,6 +1,3 @@
-
-#mconfig.xml
-
 <?xml version="1.0" encoding="UTF-8"?>
 <monitor>
     <def>
@@ -10,22 +7,22 @@
         sshPass="DQAAAAAAAAAYvDZ6dvwc82oFhQhsp/QR844PvVrue9BgE3r9CYy43g=="
         auth="">
         <items type="dblog">
-            <item order="1" dependedon="" display="鎴戞槸璋?>whoami</item>
-            <item order="2" dependedon="" display="涓枃瀛楃">pwd</item>
+            <item order="1" dependedon="" display="current user">whoami</item>
+            <item order="2" dependedon="" display="current directory">pwd</item>
         </items>
         <items type="asmlog">
-            <item order="2" dependedon="" display="鎴戞槸璋?>who</item>
+            <item order="2" dependedon="" display="logged in users">who</item>
         </items>
     </host>
     <host name="host2" ip="211.211.8.155" sshUser="root"
         sshPass="DQAAAAAAAAAYvDZ6dvwc82oFhQhsp/QR844PvVrue9BgE3r9CYy43g=="
         auth="">
         <items type="dblog">
-            <item order="1" dependedon="" display="鎴戞槸璋?>echo helloworld</item>
+            <item order="1" dependedon="" display="test command">echo helloworld</item>
         </items>
         <items type="asmlog">
-            <item order="1" dependedon="" display="鎴戞槸璋?>whoami</item>
-            <item order="2" dependedon="" display="鎴戞槸璋?>pwd</item>
+            <item order="1" dependedon="" display="current user">whoami</item>
+            <item order="2" dependedon="" display="current directory">pwd</item>
         </items>
     </host>
     <database name="creditdb" ip="211.211.8.155" dbport="1521"
@@ -34,13 +31,12 @@
         <items type="SQL">
             <item title="tablespace" order="1"
                 tabheader="TableSpace TotalSpace(MBytes) TotalBlocks(MBytes) FreeSpace(MBytes) FreeBlocks(MBytes) FreePercent(%)"
-                display="琛ㄧ┖闂翠娇鐢?  Excel="test.xslx">
+                display="database query to fetch tablespaces info" Excel="test.xslx">
                 <![CDATA[
                     select 1,2,3,4,5,6 from dual
                 ]]>
             </item>
-            <item title="unit" order="2" tabheader="owner table_name count"
-                display="鎵€鏈夎〃瀛楁鏁?>
+            <item title="unit" order="2" tabheader="owner table_name count" display="">
                 <![CDATA[
                     select utl_inaddr.get_host_name,utl_inaddr.get_host_address,'c' from dual
                 ]]>
@@ -51,14 +47,12 @@
         dbuser="hisuser" dbpass="CgAAAAAAAAAy2qF4AZfhiLzm9JarXO5rx6eFYjBWmBNIJ19t1GwOZQ==">
         <items type="SQL">
             <item title="tablespace" order="1"
-                tabheader="TableSpace TotalSpace(MBytes) TotalBlocks(MBytes) FreeSpace(MBytes) FreeBlocks(MBytes) FreePercent(%)"
-                display="琛ㄧ┖闂翠娇鐢?>
+                tabheader="TableSpace TotalSpace(MBytes) TotalBlocks(MBytes) FreeSpace(MBytes) FreeBlocks(MBytes) FreePercent(%)" display="">
                 <![CDATA[
                     select 1,2,3,4,5,6 from dual
                 ]]>
             </item>
-            <item title="unit" order="2" tabheader="owner table_name count"
-                display="琛ㄧ┖闂翠娇鐢?>
+            <item title="unit" order="2" tabheader="owner table_name count" display="">
                 <![CDATA[
                     select utl_inaddr.get_host_name,utl_inaddr.get_host_address,'c' from dual
                 ]]>

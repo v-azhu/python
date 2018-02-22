@@ -4,7 +4,7 @@
 # author   : zhuys
 # created  : 2016-07-05
 # purpose  : encrypt/decrypt password
-# copyright: copyright(c) zhuyunsheng orazhuys@gmail.com 2016
+# copyright: copyright(c) zhuyunsheng awen.zhu@hotmail.com 2016
 ###############################################################
 import argparse
 from os import environ

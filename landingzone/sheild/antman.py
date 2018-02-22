@@ -14,7 +14,7 @@ import time,decimal
 # author   : zhuys
 # created  : 2016-09-25
 # purpose  : 064 enterprice data,profile of company, copyright data exp/imp application
-# copyright: copyright(c) zhuyunsheng orazhuys@gmail.com 2016
+# copyright: copyright(c) zhuyunsheng awen.zhu@hotmail.com 2016
 #######################################################################################
 class antman(object):
     def __init__(self):

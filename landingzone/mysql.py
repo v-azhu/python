@@ -2,10 +2,10 @@
 import pyodbc
 ###############################################################################
 # name      : mysql.py
-# author    : carl_zys@163.com
+# author    : awen.zhu@hotmail.com
 # created   : 2017-10-10
 # purpose   : mysql database operation object.
-# copyright : copyright (c) zhuyunsheng carl_zys@163.com all rights received  
+# copyright : copyright (c) zhuyunsheng awen.zhu@hotmail.com all rights received  
 ################################################################################
 class mysql(object):
     def __init__(self):

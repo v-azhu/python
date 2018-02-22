@@ -1,10 +1,10 @@
 # encoding: utf-8
 ###############################################################################
 # name      : idxubyte.py
-# author    : carl_zys@163.com
+# author    : awen.zhu@hotmail.com
 # created   : 2017-12-10
 # purpose   : idx1_ubyte file decode/encode 
-# copyright : copyright (c) zhuyunsheng carl_zys@163.com all rights received  
+# copyright : copyright (c) zhuyunsheng awen.zhu@hotmail.com all rights received  
 ################################################################################
 """
 THE IDX FILE FORMAT

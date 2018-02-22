@@ -1,10 +1,10 @@
 /*
 ###############################################################################
 # name      : database.sql
-# author    : carl_zys@163.com
+# author    : awen.zhu@hotmail.com
 # created   : 2017-10-10
 # purpose   : mysql database objects 
-# copyright : copyright (c) zhuyunsheng carl_zys@163.com all rights received  
+# copyright : copyright (c) zhuyunsheng awen.zhu@hotmail.com all rights received  
 ################################################################################
 */
 

@@ -10,11 +10,11 @@ from multiprocessing import Process,freeze_support
 
 ###############################################################################
 # name      : stock.py
-# author    : carl_zys@163.com
+# author    : awen.zhu@hotmail.com
 # created   : 2017-10-10
 # purpose   : the script extracts tdx.com.cn's data files and then 
 #             parse/load it into database
-# copyright : copyright (c) zhuyunsheng carl_zys@163.com all rights received  
+# copyright : copyright (c) zhuyunsheng awen.zhu@hotmail.com all rights received  
 ################################################################################
 
 class istock(object):

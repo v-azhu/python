@@ -3,7 +3,7 @@ import urllib.request
 from bs4 import BeautifulSoup
 import sys,io
 
-__author__='carl_zys@163.com'
+__author__='awen.zhu@hotmail.com'
 # change default output encoding as gb18030 to avoid encoding error.
 
 class ipo(object):

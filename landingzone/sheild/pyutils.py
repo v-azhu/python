@@ -6,7 +6,7 @@
 # author   : zhuys
 # created  : 2016-07-05
 # purpose  : common utilities 
-# copyright: copyright(c) zhuyunsheng orazhuys@gmail.com 2016-2020
+# copyright: copyright(c) zhuyunsheng awen.zhu@hotmail.com 2016-2020
 ##################################################################
 import os
 from datetime import datetime

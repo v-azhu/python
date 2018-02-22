@@ -10,7 +10,7 @@ import traceback
 # author   : zhuys
 # created  : 2016-09-25
 # purpose  : operation behavior data parser/loader
-# copyright: copyright(c) zhuyunsheng orazhuys@gmail.com 2016
+# copyright: copyright(c) zhuyunsheng awen.zhu@hotmail.com 2016
 #######################################################################################
 def opBehavior(f,batrows=1000):
     fields=['_id','uid','platformType','otherValue','netType','deviceId','className','inputIDs','osVersion','shareType','endTime','text','eventId','_class','startTime','model','monitorId','fragmentName','sharePlatformType','createDate']
