@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 from __future__ import division
-from urllib2 import urlopen
+from urllib import request
 from struct import unpack
 import mysql
 import datetime
@@ -14,6 +14,7 @@ from multiprocessing import Process,freeze_support
 # created   : 2017-10-10
 # purpose   : the script extracts tdx.com.cn's data files and then 
 #             parse/load it into database
+# changelist: 2018/2/25 python2.7 to python3.6
 # copyright : copyright (c) zhuyunsheng awen.zhu@hotmail.com all rights received  
 ################################################################################
 
@@ -25,16 +26,18 @@ class istock(object):
         self.curraccount={"avaliablebalance":100000,"currdate":datetime.datetime.strptime('2017-09-12','%Y-%m-%d'),'sh600050':{'totalamt':0,"totalprice":0,"availableamt":0,"currops":[]}}
         
     def _getStockInfo(self):
-        data = urlopen(self.urlbase%','.join(self.watchlist))
+        data = request.urlopen(self.urlbase%','.join(self.watchlist))
         for l in data.readlines():
-            print l.decode('gb18030').strip()
+            print ( l.decode('gb18030').strip() )
             #for e in l.split(','):print e.decode('gb18030')
     def stock1day(self,md=None):
-        self.dfs=r'E:\zd_ztzq\vipdoc\*\lday\*.day'
-        self.alldatafiles = glob.glob(self.dfs)        
+        print ("start")
+        self.dfs=r'C:\zd_ztzq\vipdoc\sz\lday\sz002900.day'
+        self.alldatafiles = glob.glob(self.dfs)   
+        print (self.alldatafiles)
         for f in self.alldatafiles[md::(None if self.multi == 1 else self.multi)]:
             with open(f,'rb') as fh:
-                print "processing with data file : %s"%f
+                print ( "processing with data file : %s"%f )
                 with mysql.mysql() as db:
                     fc = fh.read()
                     d=[]
@@ -49,18 +52,20 @@ class istock(object):
                         if d:
                             db._cursor.executemany("insert into tb_stk_1day values(?,?,?,?,?,?,?,?)",d)
                             db._conn.commit()
+        print ("well done!")
     def f10(self,md=None):
         with open('e:/600362.txt','rb') as f:
             txt = f.read().decode('gb18030')
-            print type(txt)
-            print re.findall(u'<!\S公司概况>(.*)<!C.*>',txt,re.S)[0]
+            print ( type(txt) )
+            print ( re.findall(u'<!\S公司概况>(.*)<!C.*>',txt,re.RegexFlag.S)[0] )
     def stock1min(self,md=None):
-        self.dfs=r'E:\zd_ztzq\vipdoc\*\minline\*.lc1'
+        self.dfs=r'C:\zd_ztzq\vipdoc\*\minline\*.lc1'
         self.alldatafiles = glob.glob(self.dfs)
         with mysql.mysql() as db:
             for fl in self.alldatafiles[md::(None if self.multi == 1 else self.multi)]:
                 scode=os.path.basename(fl).split('.')[0]
                 with open(fl,'rb') as f:
+                    print ("start process file : %s"%fl)
                     fc = f.read()
                     d=[]
                     sql="""select ifnull(max(sdate),str_to_date('1980-01-01 12:12:12','%%Y-%%m-%%d %%H:%%M:%%S')) from tb_stk_1min where scode = '%s'"""%scode
@@ -78,42 +83,7 @@ class istock(object):
                         if d:
                             db._cursor.executemany("insert into tb_stk_1min values(?,?,?,?,?,?,?,?)",d)
                             db._conn.commit()
-    def backtrace(self,):
-        scode='sh600050'
-        startdate=datetime.datetime.strptime('2017-09-10 00:00:00','%Y-%m-%d %H:%M:%S')
-        enddate = datetime.datetime.now()
-        nextday = startdate+datetime.timedelta(days=1)
-        maxclose,minclose,avgclose,minsdate = self.getndaysavgprice()        
-        with mysql.mysql() as db:
-            while nextday < enddate:
-                sql="select * from tb_stk_1min where scode = '%s' and sdate > '%s' and sdate < '%s' order by sdate"%(scode,startdate,nextday)
-                for r in db._cursor.execute(sql).fetchall():
-                    if r[5] > avgclose:
-                        self.buy(scode=scode,amt=1000,price=r[5],opdate=r[1])
-                    elif r[5] < avgclose:
-                        self.sell(scode=scode,amt=1000,price=r[5],opdate=r[1])
-                print self.curraccount
-                startdate = nextday
-                nextday = startdate+datetime.timedelta(days=1)
-    
-    def buy(self,scode,amt,price,opdate):        
-        print "befor:%s,avaliablebalance:%s,currdate:%s"%(self.curraccount[scode],self.curraccount["avaliablebalance"],self.curraccount["currdate"])
-        if float(amt*price) > self.curraccount["avaliablebalance"]:
-            print "not enough money to buy!", amt*price
-            return -1
-        else:
-            self.curraccount[scode]["currops"].append({"currbuyamt":amt,"currbuyprice":price,"currbuybalance":amt*price,"buydate":opdate})
-            self.curraccount["avaliablebalance"] -= amt*price
-            self.curraccount[scode]["totalamt"] += amt
-        print "after:%s,avaliablebalance:%s,currdate:%s"%(self.curraccount[scode],self.curraccount["avaliablebalance"],self.curraccount["currdate"])
-    def sell(self,scode,amt,price,opdate):
-        pass
-    def getndaysavgprice(self,scode='sh600050',days=20):
-        with mysql.mysql() as db:
-            sql="""select max(rclose) maxclose,min(rclose) minclose,avg(rclose) avgclose,min(sdate) minsdate from tb_stk_1min where scode = '%s' and sdate > date_sub(sysdate(),interval %d day)
-            """%(scode,days)
-            rs = db._cursor.execute(sql).fetchone()
-            return rs
+
     def run(self):
         for i in range(self.multi):
             p=Process(target=self.stock1min,args=(i,))
@@ -124,10 +94,10 @@ if __name__ == "__main__":
     freeze_support()
     istk = istock()
     #istk._getStockInfo()
-    #istk.stock1day(1)
+    istk.stock1day(0)
     #istk.f10()
     #istk.run()
     #istk.stock1min()
-    istk.backtrace()
+    #istk.backtrace()
     #istk.buy(scode='sh600050',amt=10000,price=7.11,opdate=datetime.datetime.strptime('2017-09-11','%Y-%m-%d'))
     
