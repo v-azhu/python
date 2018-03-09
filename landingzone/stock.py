@@ -7,6 +7,8 @@ import datetime
 import os,glob,re
 import operator as op
 from multiprocessing import Process,freeze_support
+import numpy as np
+import pandas as pd
 
 ###############################################################################
 # name      : stock.py
@@ -32,26 +34,46 @@ class istock(object):
             #for e in l.split(','):print e.decode('gb18030')
     def stock1day(self,md=None):
         print ("start")
-        self.dfs=r'C:\zd_ztzq\vipdoc\sz\lday\sz002900.day'
+        self.dfs=r'C:\zd_ztzq\vipdoc\*\lday\*.day'
         self.alldatafiles = glob.glob(self.dfs)   
         print (self.alldatafiles)
         for f in self.alldatafiles[md::(None if self.multi == 1 else self.multi)]:
             with open(f,'rb') as fh:
                 print ( "processing with data file : %s"%f )
+                scode = os.path.basename(f).split('.')[0]
                 with mysql.mysql() as db:
                     fc = fh.read()
                     d=[]
-                    maxdate = db._cursor.execute("""select ifnull(max(sdate),str_to_date('1980-01-01','%%Y-%%m-%%d')) from tb_stk_1day where scode = '%s'"""%os.path.basename(f).split('.')[0]).fetchone()[0]                    
-                    if maxdate is None: maxdate = datetime.date.strptime('1980-01-01','%Y-%m-%d')
-                    if datetime.date.today() > maxdate:
-                        while fc:
-                            rawdata = unpack('IIIIIfII',fc[:32])
-                            if datetime.datetime.strptime(str(rawdata[0]),'%Y%m%d') > datetime.datetime(maxdate.year, maxdate.month, maxdate.day):
-                                d.append( (os.path.basename(f).split('.')[0],datetime.datetime.strptime(str(rawdata[0]),'%Y%m%d'),float(rawdata[1]/100),float(rawdata[2]/100),float(rawdata[3]/100),float(rawdata[4]/100), int(rawdata[5]),int(rawdata[6]) ) )
-                            fc = fc[32:]
-                        if d:
-                            db._cursor.executemany("insert into tb_stk_1day values(?,?,?,?,?,?,?,?)",d)
-                            db._conn.commit()
+                    db._cursor.execute("""delete from tb_stk_1day where scode = '{}'""".format(scode))
+                    db._conn.commit()
+                    firstrow=0
+                    lastema12,lasteam26,lastdea=0,0,0
+                    while fc:
+                        rawdata = unpack('IIIIIfII',fc[:32])
+                        sdate = datetime.datetime.strptime(str(rawdata[0]),'%Y%m%d')
+                        sopen = float(rawdata[1]/100)
+                        shigh = float(rawdata[2]/100)
+                        slow = float(rawdata[3]/100)
+                        sclose = float(rawdata[4]/100)
+                        samt  = int(rawdata[5])
+                        svol = int(rawdata[6])
+                        if firstrow == 0:
+                            ema12,ema26,dif,dea = sclose,sclose,0,0
+                        else:
+                            ema12 = (2*sclose+(12-1)*lastema12)/(12+1)
+                            ema26 = (2*sclose+(26-1)*lasteam26)/(26+1)
+                            dif =  ema12 - ema26
+                            dea = (2*dif + (9-1)*lastdea)/(9+1)
+                        macd = 2*(dif - dea)
+                        lastema12 = ema12
+                        lasteam26 = ema26
+                        lastdea = dea
+                        firstrow += 1
+                        d.append((scode,sdate,sopen,shigh,slow,sclose,samt,svol,round(ema12,2),round(ema26,2),round(dif,2),round(dea,2),round(macd,2)))
+                        fc = fc[32:]
+                    if d:
+                        db._cursor.executemany("insert into tb_stk_1day values(?,?,?,?,?,?,?,?,?,?,?,?,?)",d)
+                        db._conn.commit()
         print ("well done!")
     def f10(self,md=None):
         with open('e:/600362.txt','rb') as f:
@@ -86,7 +108,7 @@ class istock(object):
 
     def run(self):
         for i in range(self.multi):
-            p=Process(target=self.stock1min,args=(i,))
+            p=Process(target=self.stock1day,args=(i,))
             p.start()
         p.join()
     
@@ -94,9 +116,9 @@ if __name__ == "__main__":
     freeze_support()
     istk = istock()
     #istk._getStockInfo()
-    istk.stock1day(0)
+    #istk.stock1day(0)
     #istk.f10()
-    #istk.run()
+    istk.run()
     #istk.stock1min()
     #istk.backtrace()
     #istk.buy(scode='sh600050',amt=10000,price=7.11,opdate=datetime.datetime.strptime('2017-09-11','%Y-%m-%d'))

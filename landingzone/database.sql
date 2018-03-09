@@ -31,7 +31,12 @@ create table tb_stk_1day
    slow                 decimal(10,2),
    sclose               decimal(10,2),
    samt                 bigint,
-   svol                 bigint
+   svol                 bigint,
+   ema12				decimal(10,2),
+   ema26				decimal(10,2),
+   dif					decimal(10,2),
+   dea					decimal(10,2),
+   macd					decimal(10,2)
 );
 
 /*==============================================================*/
